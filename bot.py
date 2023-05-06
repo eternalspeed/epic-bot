@@ -26,7 +26,7 @@ def run_discord_bot():
         if message.author == client.user:
             return
         
-        if message.content.__eq__('dupa'):
+        if message.content.__eq__('test'):
             await message.channel.send(games.main())
 
     client.run(os.getenv('TOKEN'))

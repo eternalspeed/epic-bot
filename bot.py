@@ -15,7 +15,7 @@ def run_discord_bot():
     intents.message_content = True   
     client = discord.Client(intents=intents)
     channel = client.get_channel(os.getenv('CHANNEL'))
-    role = '<@&1101520722670661733>'
+    role = '<@&1101520722670661733>' # doesn't work off .env file
     free_games = '\n'.join(games.main())
 
     # Info when bot is ready.

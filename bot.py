@@ -15,6 +15,7 @@ def run_discord_bot():
     intents.message_content = True   
     client = discord.Client(intents=intents)
     channel = client.get_channel(os.getenv('CHANNEL'))
+    role = '<@&1101520722670661733>'
     free_games = '\n'.join(games.main())
 
     # Info when bot is ready.
@@ -29,6 +30,6 @@ def run_discord_bot():
             return
         
         if message.content.__eq__('games'):
-            await message.channel.send(free_games)
+            await message.channel.send(f'{role}\n{free_games}')
 
     client.run(os.getenv('TOKEN'))

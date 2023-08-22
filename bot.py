@@ -3,7 +3,8 @@ import os
 import games
 from dotenv import load_dotenv
 from epicstore_api import EpicGamesStoreAPI, OfferData
-from datetime import datetime, time
+import datetime
+from discord.ext import tasks
 
 # Load evniroment variables.
 load_dotenv()
@@ -17,11 +18,15 @@ def run_discord_bot():
     channel = client.get_channel(os.getenv('CHANNEL'))
     role = '<@&1101520722670661733>' # doesn't work off .env file
     free_games = '\n'.join(games.main())
+    reminder = datetime.time(hour=15, minute=00, second=00)
 
     # Info when bot is ready.
     @client.event
     async def on_ready():
         print(f'{client.user} is now running!')
+        if not remind.is_running():
+            remind.start() # If the task is not already running, start it.
+            print("Reminder task started!")
 
     # Send list of games on command.
     @client.event   
@@ -31,5 +36,14 @@ def run_discord_bot():
         
         if message.content.__eq__('games'):
             await message.channel.send(f'{role}\n{free_games}')
+
+    # Send list of games at specific time
+    # TODO: Debug - doesn't work
+    @tasks.loop(hours=72)
+    async def remind():
+        await client.wait_until_ready()
+        channel = client.get_channel(1143101326943850577) # doesn't work off .env file
+        await channel.send(f'{role}\n{free_games}')
+
 
     client.run(os.getenv('TOKEN'))
